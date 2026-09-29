@@ -1,0 +1,302 @@
+.impressum {
+    margin-left: 250px;
+    margin-top: 130px;
+    margin-right: 50px;
+
+    font-family: "Fira Code", monospace;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal; 
+    font-weight: 300;
+    color: #926767;
+    font-size: 30px;
+}
+.ttlimpressum {
+    text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  */
+/*  */
+/*  */
+/* Base Structure */
+/*  */
+/*  */
+/*  */
+
+/* Firefox scrollbar */
+html {
+    scrollbar-width: none;
+}
+
+/* Chrome, Safari, Edge - no scrollbar */
+html::-webkit-scrollbar {
+    display: none;
+}
+
+/* Body */
+body {
+    margin: 0;
+    background-color: #2D2D2D;
+}
+/* Body end */
+
+
+
+/* Header */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%; 
+    z-index: 1000;
+    background-color: #1C1C1C;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+}
+.headerlogo {
+    height: 80px;
+    width: auto;
+    display: block;
+}
+.logo-link {
+    position: relative;
+    display: inline-block;
+}
+
+.headerlogo {
+    transition: opacity 0.3s ease; 
+}
+.logo-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0; 
+}
+.logo-link:hover .logo-default {
+    opacity: 0;
+}
+.logo-link:hover .logo-hover {
+    opacity: 1;
+}
+/* Header end */
+
+
+
+/* Profile Dropdown */
+.profile-dropdown {
+    position: relative;
+    display: block;
+    float: right;
+}
+.profilepic {
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0; 
+    top: 100%; 
+    margin-top: 8px;
+    background-color: #2D2D2D;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    z-index: 1000;
+    overflow: hidden;
+    text-align: right;
+}
+.dropdown-content a {
+    font-family: "Fira Code", monospace;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal; 
+    font-weight: 300;
+    color: #926767;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    white-space: nowrap; 
+}
+.dropdown-content a:hover {
+    background-color: #463e3e;
+}
+.dropdown-content.show {
+    display: block;
+}
+/* Prorfile Dropdown end */
+
+
+
+/* Navbar */
+nav {
+    font-family: "Fira Code", monospace;
+    font-weight: 300;
+    font-weight: 300;
+    color: #926767;
+    text-align: center;
+
+}
+.news {
+    margin: 50px;
+    font-family: "Fira Code", monospace;
+    font-weight: 300;
+    font-style: normal; 
+    font-weight: 300;
+    color: #926767;
+    text-decoration: none;
+    margin: 50px;
+    margin-left: 0px;
+}
+.about {
+    margin: 50px;
+    font-family: "Fira Code", monospace;
+    font-weight: 300;
+    font-style: normal; 
+    font-weight: 300;
+    color: #926767;
+    text-decoration: none;
+    margin: 50px;
+}
+.help {
+    margin: 50px;
+    font-family: "Fira Code", monospace;
+    font-weight: 300;
+    font-style: normal; 
+    font-weight: 300;
+    color: #926767;
+    text-decoration: none;
+    margin: 50px;
+}
+.help:hover, .about:hover, .news:hover {
+    color: #4b3838;
+}
+/* Navbar end */
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 200px;
+    height: calc(100vh - 80px); 
+    background-color: #252525;
+    padding-top: 20px;
+    box-sizing: border-box;
+}
+.search-bar {
+    display: block;
+    width: 80%;
+    font-family: "Fira Code", monospace;
+    margin: 0px auto;
+    padding: 10px;
+    border: none;
+    outline: none;
+    background-color: #1C1C1C;
+    color: #926767;
+    border-radius: 50px;
+}
+.sidebar-link {
+    text-align: center;
+    display: block;
+    color: #926767;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-family: "Fira Code", monospace;
+    font-weight: 300;
+    font-size: 19px;
+}
+.sidebar-link:hover {
+    color: #4b3838;
+}
+.sidelines {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.footer-sidebar {
+    text-align: center;
+    display: block;
+    color: #926767;
+    text-decoration: none;
+    font-family: "Fira Code", monospace;
+    font-weight: 300;
+    font-size: 10px;
+}
+.footer-sidebar:hover {
+    color: #4b3838;
+}
+.footer-sidebar© { 
+    text-align: center;
+    display: block;
+    color: #926767;
+    text-decoration: none;
+    font-family: "Fira Code", monospace;
+    font-weight: 300;
+    font-size: 10px;
+}
+#ftrs {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+}
+/*  */
+/*  */
+/*  */
+/* Base Structure end*/
+/*  */
+/*  */
+/*  */

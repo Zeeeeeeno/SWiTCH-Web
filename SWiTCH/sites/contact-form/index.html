@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SWiTCH | Home</title>
+        <link rel="icon" href="../1img/logoS-W.png" type="image/png">
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
+        </style>
+    </head>
+    <body>
+        <header>
+            <a href="../home/index.html" class="logo-link">
+            <img src="../1img/logoL.png" alt="SWiTCH Logo" class="headerlogo logo-default">
+            <img src="../1img/logoL-F.png" alt="SWiTCH Logo" class="headerlogo logo-hover">
+            </a>
+            <nav>
+                <a class="news" href="../news/index.html">News</a>
+                <a class="about" href="../aboutus/index.html">About Us</a>
+                <a class="help" href="../help-contact/index.html" style="color: #c0a8a8;">Help & Contact</a>
+            </nav>
+            <div class="profile-dropdown">
+                <img src="../1img/profilepic-R.png" alt="Profile Picture" class="profilepic" onclick="toggleDropdown()">
+                <div id="dropdown-menu" class="dropdown-content">
+                    <a href="../profile/index.html">My Profile</a>
+                    <a href="../settings/index.html">Settings</a>
+                    <a href="../logout/index.html">Sign Out</a>
+                </div>
+            </div>
+        </header>
+        <div class="sidebar">
+            <input type="text" placeholder="Search..." class="search-bar"><br>
+            <hr class="sidelines" style: color="#696969">
+            <a href="../all/index.html" class="sidebar-link">All</a><hr class="sidelines" style: color="#696969">
+            <a href="../windows/index.html" class="sidebar-link">Windows Apps</a><hr class="sidelines" style: color="#696969">
+            <a href="../steam/index.html" class="sidebar-link">Steam</a><hr class="sidelines" style: color="#696969">
+            <a href="../epicgames/index.html" class="sidebar-link">Epic Games</a><hr class="sidelines" style: color="#696969">
+            <a href="../rockstar/index.html" class="sidebar-link">Rockstar Games</a><hr class="sidelines" style: color="#696969">
+            <a href="../ubisoft/index.html" class="sidebar-link">Ubisoft</a><hr class="sidelines" style: color="#696969">
+            <a href="../riot/index.html" class="sidebar-link">Riot Games</a><hr class="sidelines" style: color="#696969">
+            
+            <div id="ftrs">
+                <a href="../legal/index.html" class="footer-sidebar">Legal Notice</a>
+                <a href="../privacy/index.html" class="footer-sidebar">Privacy Policy</a>
+                <a href="../terms/index.html" class="footer-sidebar">Terms & Conditions</a>
+                <span class="footer-sidebar©">© 2026 SWiTCH, Inc. All rights reserved</span>
+            </div>
+        </div>
+        <div class="helpmepls">
+                        <a href="../help-contact/index.html" style="color: #252525;">
+                <button class="cnctinf" id="tghtcnc">Contact</button>
+            </a>
+            <a href="../contact-form/index.html" style="color: #252525;">
+                <button class="cnctfrm" id="tghtcnc">Form</button>
+            </a>
+
+
+
+
+
+
+
+
+            <div class="form">
+                <form class="form" action="https://formspree.io/f/mvkgalal" method="POST"> 
+                    <br>
+                    <h1 class="cncttl">Contact Form</h1>
+                    <br>
+                    
+                    <div class="field-group">
+                        <label for="firstname">First Name:</label>
+                        <input type="text" id="firstname" name="first_name" class="firstname" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="lastname">Last Name:</label>
+                        <input type="text" id="lastname" name="last_name" class="lastname" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="email">Email:</label>
+                        <!-- Formspree nutzt den name="_replyto" oder "email", um Antworten direkt an den Absender zu erlauben -->
+                        <input type="email" id="email" name="email" class="email" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="subject">Subject:</label>
+                        <input type="text" id="subject" name="subject" class="subject" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" class="message" required></textarea>
+                    </div>
+                    <br>
+                    <button type="submit" class="submit-btn">Submit</button>
+                    <br><br>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
