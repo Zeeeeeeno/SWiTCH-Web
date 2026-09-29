@@ -1,0 +1,25 @@
+Cargo tauri signer generate
+Password:
+SWiTCH676988
+
+
+
+
+
+Deriving a key from the password in order to encrypt the secret key... done
+
+Your keys were generated successfully!
+
+Private: (Keep it secret!)
+dW50cnVzdGVkIGNvbW1lbnQ6IHJzaWduIGVuY3J5cHRlZCBzZWNyZXQga2V5ClJXUlRZMEl5dDdJZVRqNEl0OGpUUEdDMkNDcWdSYWtRd1lOY2FqQlk3N2ZGVUVLSnIvMEFBQkFBQUFBQUFBQUFBQUlBQUFBQS9kVUxKNzRUZHJ2MzE1YzRDOHJWdUNRdVpzd05ZUGZIUHQ1N3lBc3FCdjU3d3g5eGhjb2g3U0RIYXpUK2R0Und5SUIwRDl0RWRua0pkdys5VVNqSXdIM2g1WXVLWVhFcUFyV2VVM0c3cWlqN1ZHOGJsVktZa05vb2svVzhhVUEyM0FDMk44dkszcDg9Cg==
+
+Public:
+dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDNFNzIyQjU3N0U0N0E2NDkKUldSSnBrZCtWeXR5UGgyMnM0YjNQMjVZUVdyWlpvd0xRR1ZNdkJ5cmNVcmZSRHJtQnl4R3QyR1IK
+
+Environment variables used to sign:
+- `TAURI_SIGNING_PRIVATE_KEY`: String of your private key
+- `TAURI_SIGNING_PRIVATE_KEY_PATH`: Path to your private key file
+- `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`:  Your private key password (optional if key has no password)
+
+ATTENTION: If you lose your private key OR password, you'll not be able to sign your update package and updates will not work
+

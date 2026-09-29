@@ -1,60 +1,4 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*  */
-/*  */
-/*  */
-/* Base Structure */
-/*  */
-/*  */
-/*  */
-
-/* Firefox scrollbar */
+/* Firefox no scrollbar */
 html {
     scrollbar-width: none;
 }
@@ -64,14 +8,10 @@ html::-webkit-scrollbar {
     display: none;
 }
 
-/* Body */
 body {
     margin: 0;
     background-color: #2D2D2D;
 }
-/* Body end */
-
-
 
 /* Header */
 header {
@@ -85,34 +25,33 @@ header {
     justify-content: space-between; 
     align-items: center;
 }
+
 .headerlogo {
     height: 80px;
     width: auto;
     display: block;
+    transition: opacity 0.3s ease; 
 }
+
 .logo-link {
     position: relative;
     display: inline-block;
 }
 
-.headerlogo {
-    transition: opacity 0.3s ease; 
-}
 .logo-hover {
     position: absolute;
     top: 0;
     left: 0;
     opacity: 0; 
 }
+
 .logo-link:hover .logo-default {
     opacity: 0;
 }
+
 .logo-link:hover .logo-hover {
     opacity: 1;
 }
-/* Header end */
-
-
 
 /* Profile Dropdown */
 .profile-dropdown {
@@ -120,6 +59,7 @@ header {
     display: block;
     float: right;
 }
+
 .profilepic {
     cursor: pointer;
     width: 50px;
@@ -127,6 +67,7 @@ header {
     border-radius: 50%;
     display: block;
 }
+
 .dropdown-content {
     display: none;
     position: absolute;
@@ -141,11 +82,9 @@ header {
     overflow: hidden;
     text-align: right;
 }
+
 .dropdown-content a {
     font-family: "Fira Code", monospace;
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-style: normal; 
     font-weight: 300;
     color: #926767;
     padding: 12px 16px;
@@ -153,60 +92,38 @@ header {
     display: block;
     white-space: nowrap; 
 }
+
 .dropdown-content a:hover {
     background-color: #463e3e;
 }
+
 .dropdown-content.show {
     display: block;
 }
-/* Prorfile Dropdown end */
-
-
 
 /* Navbar */
 nav {
     font-family: "Fira Code", monospace;
     font-weight: 300;
-    font-weight: 300;
     color: #926767;
     text-align: center;
-
 }
-.news {
-    margin: 50px;
+
+.news, .about, .help {
     font-family: "Fira Code", monospace;
-    font-weight: 300;
-    font-style: normal; 
     font-weight: 300;
     color: #926767;
     text-decoration: none;
     margin: 50px;
+}
+
+.news {
     margin-left: 0px;
 }
-.about {
-    margin: 50px;
-    font-family: "Fira Code", monospace;
-    font-weight: 300;
-    font-style: normal; 
-    font-weight: 300;
-    color: #926767;
-    text-decoration: none;
-    margin: 50px;
-}
-.help {
-    margin: 50px;
-    font-family: "Fira Code", monospace;
-    font-weight: 300;
-    font-style: normal; 
-    font-weight: 300;
-    color: #926767;
-    text-decoration: none;
-    margin: 50px;
-}
+
 .help:hover, .about:hover, .news:hover {
     color: #4b3838;
 }
-/* Navbar end */
 
 /* Sidebar */
 .sidebar {
@@ -217,8 +134,24 @@ nav {
     height: calc(100vh - 80px); 
     background-color: #252525;
     padding-top: 20px;
+    padding-bottom: 15px;
     box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; 
+    
+    scrollbar-width: none; 
 }
+
+.sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar::-webkit-scrollbar {
+    display: none;
+}
+
 .search-bar {
     display: block;
     width: 80%;
@@ -231,6 +164,7 @@ nav {
     color: #926767;
     border-radius: 50px;
 }
+
 .sidebar-link {
     text-align: center;
     display: block;
@@ -241,14 +175,48 @@ nav {
     font-weight: 300;
     font-size: 19px;
 }
+
 .sidebar-link:hover {
     color: #4b3838;
 }
+
 .sidelines {
     margin-left: 20px;
     margin-right: 20px;
 }
-.footer-sidebar {
+
+.add-game-btn {
+    display: block;
+    width: 80%;
+    margin: 15px auto;
+    padding: 10px;
+    background-color: #1C1C1C;
+    color: #926767;
+    border: 1px solid #926767;
+    border-radius: 50px;
+    font-family: "Fira Code", monospace;
+    cursor: pointer;
+    text-align: center;
+}
+
+.add-game-btn:hover {
+    background-color: #926767;
+    color: #1C1C1C;
+}
+
+#ftrs {
+    width: 80%;
+    margin-top: auto; /* Schiebt den Footer nach unten, solange Platz da ist */
+    margin-left: auto;
+    margin-right: auto;
+    
+    border-radius: 50px;
+    font-family: "Fira Code", monospace;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+}
+.footer-sidebar, .footer-sidebar-copyright {
     text-align: center;
     display: block;
     color: #926767;
@@ -257,32 +225,234 @@ nav {
     font-weight: 300;
     font-size: 10px;
 }
+
 .footer-sidebar:hover {
     color: #4b3838;
 }
-.footer-sidebar© { 
-    text-align: center;
-    display: block;
-    color: #926767;
-    text-decoration: none;
-    font-family: "Fira Code", monospace;
-    font-weight: 300;
-    font-size: 10px;
+
+/* Main Content & Grid Layout */
+.main-content {
+    margin-left: 200px;
+    margin-top: 80px;
+    padding: 30px;
+    box-sizing: border-box;
+    min-height: calc(100vh - 80px);
 }
-#ftrs {
-    position: absolute;
-    bottom: 20px;
-    left: 0;
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
     width: 100%;
+}
+
+/* App Display Card */
+.game-card {
+    background-color: #1C1C1C;
+    border-radius: 16px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    text-align: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    width: 100%;
 }
-/*  */
-/*  */
-/*  */
-/* Base Structure end*/
-/*  */
-/*  */
-/*  */
+
+.game-title {
+    font-family: "Fira Code", monospace;
+    color: #926767;
+    font-size: 16px;
+    margin-bottom: 12px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.game-cover-container {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #2D2D2D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.no-image-btn {
+    width: 100%;
+    height: 100%;
+    background-color: #252525;
+    border: 2px dashed #926767;
+    border-radius: 12px;
+    color: #926767;
+    font-size: 36px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.no-image-btn:hover {
+    background-color: #332d2d;
+}
+
+.play-btn {
+    margin-top: 15px;
+    width: 100%;
+    background-color: #795252;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+
+.play-btn:hover {
+    background-color: #926767;
+}
+
+.play-icon {
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 14px solid #1C1C1C;
+}
+
+/* Card Actions Overlay */
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    width: 100%;
+    margin-bottom: 6px;
+}
+
+.action-icon-btn {
+    background: transparent;
+    border: none;
+    color: #926767;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px 5px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.action-icon-btn:hover {
+    background-color: #332d2d;
+    color: #c0a8a8;
+}
+
+.action-icon-btn.delete:hover {
+    color: #ff6b6b;
+}
+
+.cover-overlay {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: flex;
+    gap: 4px;
+    background: rgba(28, 28, 28, 0.8);
+    border-radius: 6px;
+    padding: 2px 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.game-cover-container:hover .cover-overlay {
+    opacity: 1;
+}
+
+.btn-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    vertical-align: middle;
+}
+
+/* Modal Styling */
+.modal {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9999; 
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #252525;
+    padding: 25px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 320px;
+    font-family: "Fira Code", monospace;
+    color: #926767;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content h3 {
+    margin: 0 0 10px 0;
+    color: #926767;
+}
+
+.modal-content input {
+    background: #1C1C1C;
+    border: 1px solid #444;
+    padding: 10px;
+    color: #926767;
+    border-radius: 6px;
+    outline: none;
+    font-family: "Fira Code", monospace;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.modal-buttons button {
+    background: #795252;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: "Fira Code", monospace;
+}
+
+.modal-buttons button:hover {
+    background: #926767;
+}
+
+.modal-buttons button.cancel {
+    background: #444;
+}
+
+.modal-buttons button.cancel:hover {
+    background: #666;
+}

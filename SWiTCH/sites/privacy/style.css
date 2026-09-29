@@ -233,7 +233,20 @@ nav {
     height: calc(100vh - 80px); 
     background-color: #252525;
     padding-top: 20px;
+    padding-bottom: 15px;
     box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; 
+    
+    /* Firefox: Scrollbar ausblenden */
+    scrollbar-width: none; 
+}
+
+/* Chrome, Safari, Edge: Scrollbar ausblenden */
+.sidebar::-webkit-scrollbar {
+    display: none;
 }
 .search-bar {
     display: block;
@@ -286,13 +299,15 @@ nav {
     font-size: 10px;
 }
 #ftrs {
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+    width: 80%;
+    margin-top: auto; /* Schiebt den Footer nach unten, solange Platz da ist */
+    margin-left: auto;
+    margin-right: auto;
+    
+    border-radius: 50px;
+    font-family: "Fira Code", monospace;
+    font-size: 12px;
+    cursor: pointer;
     text-align: center;
 }
 /*  */

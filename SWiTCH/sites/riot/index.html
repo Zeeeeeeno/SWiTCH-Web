@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>SWiTCH | Home</title>
+        <title>SWiTCH | Games</title>
         <link rel="icon" href="../1img/logoS-W.png" type="image/png">
         <link rel="stylesheet" href="style.css">
         <script src="script.js"></script>
@@ -12,8 +12,8 @@
     <body>
         <header>
             <a href="../home/index.html" class="logo-link">
-            <img src="../1img/logoL.png" alt="SWiTCH Logo" class="headerlogo logo-default">
-            <img src="../1img/logoL-F.png" alt="SWiTCH Logo" class="headerlogo logo-hover">
+                <img src="../1img/logoL.png" alt="SWiTCH Logo" class="headerlogo logo-default">
+                <img src="../1img/logoL-F.png" alt="SWiTCH Logo" class="headerlogo logo-hover">
             </a>
             <nav>
                 <a class="news" href="../news/index.html">News</a>
@@ -29,22 +29,49 @@
                 </div>
             </div>
         </header>
+
+        <!-- SIDEBAR -->
         <div class="sidebar">
             <input type="text" placeholder="Search..." class="search-bar"><br>
-            <hr class="sidelines" style: color="#696969">
-            <a href="../all/index.html" class="sidebar-link">All</a><hr class="sidelines" style: color="#696969">
-            <a href="../windows/index.html" class="sidebar-link">Windows Apps</a><hr class="sidelines" style: color="#696969">
-            <a href="../steam/index.html" class="sidebar-link">Steam</a><hr class="sidelines" style: color="#696969">
-            <a href="../epicgames/index.html" class="sidebar-link">Epic Games</a><hr class="sidelines" style: color="#696969">
-            <a href="../rockstar/index.html" class="sidebar-link">Rockstar Games</a><hr class="sidelines" style: color="#696969">
-            <a href="../ubisoft/index.html" class="sidebar-link">Ubisoft</a><hr class="sidelines" style: color="#696969">
-            <a href="../riot/index.html" class="sidebar-link" style="color: #c0a8a8;">Riot Games</a><hr class="sidelines" style: color="#696969">
+
+            <hr class="sidelines" style="border-color: #696969;">
+            <a href="../all/index.html" class="sidebar-link">All</a><hr class="sidelines" style="border-color: #696969;">
+            <a href="../windows/index.html" class="sidebar-link">Windows Apps</a><hr class="sidelines" style="border-color: #696969;">
+            <a href="../steam/index.html" class="sidebar-link">Steam</a><hr class="sidelines" style="border-color: #696969;">
+            <a href="../epicgames/index.html" class="sidebar-link">Epic Games</a><hr class="sidelines" style="border-color: #696969;">
+            <a href="../rockstar/index.html" class="sidebar-link">Rockstar Games</a><hr class="sidelines" style="border-color: #696969;">
+            <a href="../ubisoft/index.html" class="sidebar-link">Ubisoft</a><hr class="sidelines" style="border-color: #696969;">
+            <a href="../riot/index.html" class="sidebar-link" style="color: #c0a8a8;">Riot Games</a><hr class="sidelines" style="border-color: #696969;">
             
+            <button type="button" class="add-game-btn" onclick="openAddGameModal()">+ Add Custom Game</button>
+
             <div id="ftrs">
                 <a href="../legal/index.html" class="footer-sidebar">Legal Notice</a>
                 <a href="../privacy/index.html" class="footer-sidebar">Privacy Policy</a>
                 <a href="../terms/index.html" class="footer-sidebar">Terms & Conditions</a>
-                <span class="footer-sidebar©">© 2026 SWiTCH, Inc. All rights reserved</span>
+                <span class="footer-sidebar-copyright">© 2026 SWiTCH, All rights reserved</span>
+            </div>
+        </div>
+
+        <!-- Hidden File-Input for Cover Upload -->
+        <input type="file" id="cover-upload-input" style="display: none;" accept="image/*" onchange="handleImageUpload(event)">
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <div id="games-grid" class="games-grid"></div>
+        </div>
+
+        <!-- Modal zum manuellen Hinzufügen -->
+        <div id="add-game-modal" class="modal">
+            <div class="modal-content">
+                <h3>Add Game Manually</h3>
+                <input type="text" id="custom-title" placeholder="Game Title">
+                <input type="text" id="custom-path" placeholder="Path (.exe or steam://...)">
+                <input type="text" id="custom-cover" placeholder="Cover Image URL (optional)">
+                <div class="modal-buttons">
+                    <button type="button" onclick="saveCustomGame()">Save</button>
+                    <button type="button" onclick="closeAddGameModal()" class="cancel">Cancel</button>
+                </div>
             </div>
         </div>
     </body>

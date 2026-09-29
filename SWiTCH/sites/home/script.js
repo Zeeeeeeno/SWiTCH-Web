@@ -1,7 +1,7 @@
 // Base structure
 // Profile picture dropdown menu
 function toggleDropdown() {
-    const menu = document.getElementById("dropdown-menu");
+    const menu = document.getElementById("dropdown-menu");  
     menu.classList.toggle("show");
 }
 window.onclick = function(event) {
