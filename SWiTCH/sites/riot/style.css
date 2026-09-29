@@ -458,3 +458,30 @@ nav {
 .modal-buttons button.cancel:hover {
     background: #666;
 }
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 4px 8px;
+    box-sizing: border-box;
+}
+
+.card-actions .right-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.action-icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.btn-icon {
+    width: 16px;  /* Gleiche Größe für alle Icons */
+    height: 16px;
+    display: block;
+}

@@ -196,13 +196,7 @@ nav {
 }
 
 /* Main Content Layout  */
-.main-content {
-    margin-left: 200px; 
-    margin-top: 80px;  
-    padding: 30px;
-    box-sizing: border-box;
-    min-height: calc(100vh - 80px);
-}
+
 
 /* Grid Layout  */
 .games-grid {
@@ -397,8 +391,10 @@ nav {
 /* Main Content Layout */
 .main-content {
     margin-left: 200px;
-    margin-top: 80px;
+    margin-top: 26px;
     padding: 30px;
+    box-sizing: border-box;
+    min-height: calc(100vh - 80px);
 }
 
 /* Responsives Grid*/
@@ -640,4 +636,31 @@ nav {
     height: 20px;
     object-fit: contain;
     vertical-align: middle;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 4px 8px;
+    box-sizing: border-box;
+}
+
+.card-actions .right-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.action-icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.btn-icon {
+    width: 16px;  /* Gleiche Größe für alle Icons */
+    height: 16px;
+    display: block;
 }

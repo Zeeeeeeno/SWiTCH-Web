@@ -26,6 +26,7 @@ async function loadGames(query = "") {
 
 function renderGames(games) {
     const grid = document.getElementById("games-grid");
+    if (!grid) return;
     grid.innerHTML = "";
 
     games.forEach(game => {
@@ -33,16 +34,25 @@ function renderGames(games) {
         card.className = "game-card";
 
         const hasValidCover = game.cover_url && game.cover_url.trim() !== "";
+        
+        // Icon basierend auf Pin-Status wählen
+        const pinIcon = game.is_pinned ? "../1img/unpin-symbol.png" : "../1img/pin-symbol.png";
+        const pinTitle = game.is_pinned ? "Unpin" : "Pin";
 
-card.innerHTML = `
+        card.innerHTML = `
             <div class="card-actions">
-                <button class="action-icon-btn" title="Rename" onclick="renameGame('${game.appid}', '${game.name}')">
-                    <img src="../1img/pen-symbol.png" alt="Rename" class="btn-icon">
+                <button class="action-icon-btn pin-btn" title="${pinTitle}" onclick="togglePin('${game.appid}')">
+                    <img src="${pinIcon}" alt="${pinTitle}" class="btn-icon">
                 </button>
-                ${game.is_custom ? `
-                <button class="action-icon-btn delete" title="Delete" onclick="deleteGame('${game.appid}')">
-                    <img src="../1img/basket-symbol.png" alt="Delete" class="btn-icon">
-                </button>` : ''}
+                <div class="right-actions">
+                    <button class="action-icon-btn" title="Rename" onclick="renameGame('${game.appid}', '${game.name}')">
+                        <img src="../1img/pen-symbol.png" alt="Rename" class="btn-icon">
+                    </button>
+
+                        <button class="action-icon-btn delete" title="Delete" onclick="deleteGame('${game.appid}')">
+                        <img src="../1img/basket-symbol.png" alt="Delete" class="btn-icon">
+                    </button>
+                </div>
             </div>
             
             <div class="game-title" title="${game.name}">${game.name}</div>
@@ -71,6 +81,20 @@ card.innerHTML = `
         `;
         grid.appendChild(card);
     });
+}
+
+// Funktion zum Anpinnen / Loslösen
+async function togglePin(appid) {
+    try {
+        await fetch("http://127.0.0.1:3000/api/toggle-pin", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ appid })
+        });
+        loadGames(); // Baut das Grid neu auf (angebundenes Spiel rutscht nach oben)
+    } catch (err) {
+        console.error("failed to toggle pin:", err);
+    }
 }
 
 function handleImageError(imgElement, appid) {

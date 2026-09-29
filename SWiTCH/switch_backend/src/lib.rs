@@ -17,6 +17,8 @@ struct Game {
     cover_url: String,
     launch_path: String,
     is_custom: bool,
+    #[serde(default)]
+    is_pinned: bool,
 }
 
 #[derive(Serialize, Deserialize, Default, Clone)]
@@ -24,6 +26,8 @@ struct CustomData {
     custom_games: Vec<Game>,
     custom_covers: HashMap<String, String>,
     custom_names: HashMap<String, String>,
+    #[serde(default)]
+    pinned_games: HashMap<String, bool>,
 }
 
 #[derive(Deserialize)]
@@ -58,7 +62,6 @@ struct EpicManifest {
     app_name: String,
 }
 
-
 pub async fn run_backend() {
     let _ = fs::create_dir_all("uploads");
 
@@ -69,6 +72,7 @@ pub async fn run_backend() {
         .route("/api/riot-games", get(get_riot_games))
         .route("/api/rockstar-games", get(get_rockstar_games))
         .route("/api/windows-apps", get(get_windows_apps))
+        .route("/api/custom-games", get(get_custom_games))
         .route("/api/all-games", get(get_all_games))
         .route("/api/launch", get(launch_game))
         .route("/api/upload-image", post(upload_image))
@@ -77,6 +81,7 @@ pub async fn run_backend() {
         .route("/api/add-game", post(add_custom_game))
         .route("/api/delete-game", post(delete_custom_game))
         .route("/api/rename-game", post(rename_game))
+        .route("/api/toggle-pin", post(toggle_pin)) // NEU: Pin-State umschalten
         .nest_service("/uploads", ServeDir::new("uploads"))
         .layer(CorsLayer::permissive());
 
@@ -98,15 +103,14 @@ fn save_custom_data(data: &CustomData) {
     }
 }
 
-// Fügt Custom Games, Custom Names & Custom Covers zu allen Anfragen hinzu
+// Fügt Custom Games, Custom Names, Covers und Pin-Status hinzu & sortiert
 fn apply_custom_overlays(mut games: Vec<Game>, query: &Option<String>, target_category: Option<&str>) -> Vec<Game> {
     let custom_data = load_custom_data();
 
-    // Nur Custom Games hinzufügen, die zur aktuellen Kategorie passen (oder wenn target_category None ist -> für "all")
     for cg in &custom_data.custom_games {
         let is_matching_category = match target_category {
             Some(cat) => cg.appid.starts_with(&format!("custom_{}_", cat)),
-            None => true, // Für die "All"-Seite alle anzeigen
+            None => true,
         };
 
         if is_matching_category && !games.iter().any(|g| g.appid == cg.appid) {
@@ -121,12 +125,19 @@ fn apply_custom_overlays(mut games: Vec<Game>, query: &Option<String>, target_ca
         if let Some(custom_cover) = custom_data.custom_covers.get(&game.appid) {
             game.cover_url = custom_cover.clone();
         }
+        if let Some(&is_pinned) = custom_data.pinned_games.get(&game.appid) {
+            game.is_pinned = is_pinned;
+        }
     }
 
     if let Some(q) = query {
         let search_term = q.to_lowercase();
         games.retain(|g| g.name.to_lowercase().contains(&search_term));
     }
+
+    // Sortierung: Angepinnte Spiele kommen zuerst
+    games.sort_by(|a, b| b.is_pinned.cmp(&a.is_pinned));
+
     games
 }
 
@@ -160,6 +171,42 @@ async fn get_windows_apps(Query(query): Query<SearchQuery>) -> Json<Vec<Game>> {
     Json(apply_custom_overlays(games, &query.q, Some("windows")))
 }
 
+async fn get_custom_games(Query(query): Query<SearchQuery>) -> Json<Vec<Game>> {
+    let custom_data = load_custom_data();
+    
+    let mut custom_only: Vec<Game> = custom_data
+        .custom_games
+        .into_iter()
+        .filter(|g| {
+            g.is_custom 
+                || g.appid.starts_with("custom_custom_") 
+                || g.appid.starts_with("custom_user_titles_")
+        })
+        .collect();
+
+    for game in custom_only.iter_mut() {
+        if let Some(custom_name) = custom_data.custom_names.get(&game.appid) {
+            game.name = custom_name.clone();
+        }
+        if let Some(custom_cover) = custom_data.custom_covers.get(&game.appid) {
+            game.cover_url = custom_cover.clone();
+        }
+        if let Some(&is_pinned) = custom_data.pinned_games.get(&game.appid) {
+            game.is_pinned = is_pinned;
+        }
+    }
+
+    if let Some(q) = &query.q {
+        let search_term = q.to_lowercase();
+        custom_only.retain(|g| g.name.to_lowercase().contains(&search_term));
+    }
+
+    // Angepinnte zuerst sortieren
+    custom_only.sort_by(|a, b| b.is_pinned.cmp(&a.is_pinned));
+
+    Json(custom_only)
+}
+
 async fn get_all_games(Query(query): Query<SearchQuery>) -> Json<Vec<Game>> {
     let mut all = Vec::new();
     all.extend(scan_steam_games());
@@ -169,7 +216,24 @@ async fn get_all_games(Query(query): Query<SearchQuery>) -> Json<Vec<Game>> {
     all.extend(scan_rockstar_games());
     all.extend(scan_windows_apps());
 
-    Json(apply_custom_overlays(all, &query.q, None)) // None = Alle Custom Games anzeigen
+    Json(apply_custom_overlays(all, &query.q, None))
+}
+
+// NEU: Pin-Status umschalten
+async fn toggle_pin(Json(payload): Json<AppIdReq>) -> Json<serde_json::Value> {
+    let mut custom_data = load_custom_data();
+    
+    let current_status = custom_data.pinned_games.get(&payload.appid).copied().unwrap_or(false);
+    let new_status = !current_status;
+    
+    custom_data.pinned_games.insert(payload.appid.clone(), new_status);
+
+    if let Some(game) = custom_data.custom_games.iter_mut().find(|g| g.appid == payload.appid) {
+        game.is_pinned = new_status;
+    }
+
+    save_custom_data(&custom_data);
+    Json(serde_json::json!({ "success": true, "is_pinned": new_status }))
 }
 
 async fn launch_game(Query(query): Query<AppIdReq>) -> &'static str {
@@ -230,6 +294,7 @@ async fn delete_custom_game(Json(payload): Json<AppIdReq>) -> Json<serde_json::V
     custom_data.custom_games.retain(|g| g.appid != payload.appid);
     custom_data.custom_covers.remove(&payload.appid);
     custom_data.custom_names.remove(&payload.appid);
+    custom_data.pinned_games.remove(&payload.appid);
     save_custom_data(&custom_data);
     Json(serde_json::json!({ "success": true }))
 }
@@ -280,7 +345,6 @@ async fn add_custom_game(Json(payload): Json<AddGameReq>) -> Json<serde_json::Va
     let mut custom_data = load_custom_data();
     let category = payload.category.unwrap_or_else(|| "custom".to_string());
     
-    // Präfix enthält jetzt die spezifische Kategorie (z. B. custom_riot_169... oder custom_steam_169...)
     let appid = format!("custom_{}_{}", category, std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_secs());
 
     let new_game = Game {
@@ -289,6 +353,7 @@ async fn add_custom_game(Json(payload): Json<AddGameReq>) -> Json<serde_json::Va
         cover_url: payload.cover_url.unwrap_or_default(),
         launch_path: payload.launch_path,
         is_custom: true,
+        is_pinned: false,
     };
 
     custom_data.custom_games.push(new_game);
@@ -333,6 +398,7 @@ fn scan_steam_games() -> Vec<Game> {
                                         cover_url,
                                         launch_path: format!("steam://run/{}", appid),
                                         is_custom: false,
+                                        is_pinned: false,
                                     });
                                 }
                             }
@@ -365,6 +431,7 @@ fn scan_epic_games() -> Vec<Game> {
                                 cover_url: String::new(),
                                 launch_path: launch_cmd,
                                 is_custom: false,
+                                is_pinned: false,
                             });
                         }
                     }
@@ -391,6 +458,7 @@ fn scan_ubisoft_games() -> Vec<Game> {
                             cover_url: String::new(),
                             launch_path: format!("uplay://launch/{}", folder_name),
                             is_custom: false,
+                            is_pinned: false,
                         });
                     }
                 }
@@ -400,11 +468,9 @@ fn scan_ubisoft_games() -> Vec<Game> {
     games
 }
 
-// Erkennung für Riot Games erweitert (sucht via Json-Client-Installs & Standardpfaden)
 fn scan_riot_games() -> Vec<Game> {
     let mut games = Vec::new();
     
-    // Methde A: RiotClientInstalls.json
     let riot_installs = Path::new(r"C:\ProgramData\Riot Games\RiotClientInstalls.json");
     if riot_installs.exists() {
         if let Ok(content) = fs::read_to_string(riot_installs) {
@@ -427,6 +493,7 @@ fn scan_riot_games() -> Vec<Game> {
                                 cover_url: String::new(),
                                 launch_path: exe_path.to_string(),
                                 is_custom: false,
+                                is_pinned: false,
                             });
                         }
                     }
@@ -435,7 +502,6 @@ fn scan_riot_games() -> Vec<Game> {
         }
     }
 
-    // Methode B: Direkter Fallback-Check auf VALORANT & League of Legends Pfade
     let valorant_path = Path::new(r"C:\Riot Games\VALORANT\live\VALORANT.exe");
     if valorant_path.exists() && !games.iter().any(|g| g.name.to_lowercase() == "valorant") {
         games.push(Game {
@@ -444,6 +510,7 @@ fn scan_riot_games() -> Vec<Game> {
             cover_url: String::new(),
             launch_path: valorant_path.to_string_lossy().to_string(),
             is_custom: false,
+            is_pinned: false,
         });
     }
 
@@ -455,6 +522,7 @@ fn scan_riot_games() -> Vec<Game> {
             cover_url: String::new(),
             launch_path: lol_path.to_string_lossy().to_string(),
             is_custom: false,
+            is_pinned: false,
         });
     }
 
@@ -477,6 +545,7 @@ fn scan_rockstar_games() -> Vec<Game> {
                             cover_url: String::new(),
                             launch_path: path.to_string_lossy().to_string(),
                             is_custom: false,
+                            is_pinned: false,
                         });
                     }
                 }
@@ -526,6 +595,7 @@ fn scan_lnk_recursive(dir: &Path, apps: &mut Vec<Game>) {
                             cover_url: String::new(),
                             launch_path: path.to_string_lossy().to_string(),
                             is_custom: false,
+                            is_pinned: false,
                         });
                     }
                 }
